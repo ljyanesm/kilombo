@@ -116,7 +116,7 @@ void update_interactions_grid (int n_bots)
     for (int i=0; i<n_bots; i++) {
       if (user_obstacles(allbots[i]->x, allbots[i]->y, &push_x, &push_y)){
         allbots[i]->x += push_x;
-	allbots[i]->y += push_y;
+        allbots[i]->y += push_y;
       }
     }
   }

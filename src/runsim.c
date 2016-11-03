@@ -57,7 +57,20 @@ void initialise_simulator(const char *param_filename)
   parse_param_file(param_filename);
 
   if (!simparams->randSeed) {
-    srand(time(0));
+      FILE *random_file = fopen("/dev/urandom","r");
+      int random_seed = 0;
+      if (random_file == NULL){
+          fprintf(stderr, "Failed opening /dev/urandom, trying /dev/random\n");
+          random_file = fopen("/dev/random", "r");
+          if (random_file == NULL) {
+              fprintf(stderr, "Failed opening /dev/random, using current time as seed\n");
+              srand(time(0));
+          }
+      }
+      if (random_file != NULL) {
+          random_seed = getc(random_file);
+          srand(random_seed);
+      }
   } else {
     srand(simparams->randSeed);
   }
